@@ -1,5 +1,7 @@
 ﻿Migrations/
 bin/
+obj/
 Properties/ServiceDependencies
 Properties/PublishProfiles
 .vs/
+**/wwwroot/lib
