@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model OrderViewModel
+
+<h2>Previous Orders</h2>
+
+@if (@Model.Orders.Count() == 0)
+{
+    <h4>You have not placed any orders.</h4> }
+else
+{
+    <table class="table table-bordered" table-striped>
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    Order Id
+                </th>
+                <th>
+                    Placed at
+                </th>
+                <th>
+                    Total
+                </th>
+                <th>
+                    Items purchased
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var c in Model.Orders)
+            {
+                <tr>
+                    <td>
+                    </td>
+                    <td class="text-left">
+                        @c.OrderId
+                    </td>
+                    <td class="text-left">
+                        @c.OrderPlaced
+                    </td>
+                    <td class="text-left">
+                        @c.OrderTotal
+                    </td>
+                    <td>
+                        @foreach (var od in @Model.OrderDetails.Where(o => o.OrderId == c.OrderId))
+                        {
+                            @foreach (var d in @Model.Products.Where(p => p.Id == od.ProductId))
+                            {
+                                <ul>
+                                    @foreach (var pro in @Model.Computers.Where(l => l.Id == d.ComputerId))
+                                    {
+                                    <li>@pro.Name</li><br />
+                                    }
+
+                                <ul>
+                                    @foreach (var pro in @Model.ProcessorOps.Where(l => l.Id == d.ProcessorId))
+                                    {
+                                        <li>@pro.Name</li>
+                                        <br />
+                                    }
+                                    @foreach (var pro in @Model.GraphicsOps.Where(l => l.Id == d.GraphicsId))
+                                    {
+                                        <li>@pro.Name</li>
+                                        <br />
+                                    }
+                                    @foreach (var pro in @Model.MemoryOps.Where(l => l.Id == d.MemoryId))
+                                    {
+                                        <li>@pro.Name</li>
+                                        <br />
+                                    }
+                                    @foreach (var pro in @Model.StorageOps.Where(l => l.Id == d.StorageId))
+                                    {
+                                        <li>@pro.Name</li>
+                                        <br />
+                                    }
+                                    @foreach (var pro in @Model.SoundCardOps.Where(l => l.Id == d.SoundCardId))
+                                    {
+                                        <li>@pro.Name</li>
+                                        <br />
+                                    }
+                                </ul>
+                                </ul>
+
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>}

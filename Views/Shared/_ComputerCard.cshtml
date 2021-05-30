@@ -1,0 +1,13 @@
+﻿@model Computer
+
+<div class="row">
+
+    <div class="col mb-5 mr-2">
+        <p><a asp-controller="Computer" asp-action="Details" asp-route-id="@Model.Id"><img class="computerImage" src="@Url.Content(Model.ImageURL)" alt="Image" /></a></p>
+        <h5><a asp-controller="Computer" asp-action="Details" asp-route-id="@Model.Id">@Model.Name</a></h5>
+        <h5 class="text-danger">Base Price: $@Model.BasePrice</h5>
+        <h6 class="text-success">Available to configure</h6>
+    </div>
+
+
+</div>

@@ -1,0 +1,268 @@
+﻿@model DetailViewModel
+<a href='javascript:history.go(-1)' class="btn btn-outline-dark mb-3">Go Back to Previous Page</a>
+
+<h1>@Model.Computer.Name</h1>
+
+<div>
+    <div class="text-center">
+        <img alt="@Model.Computer.Name" src="@Url.Content(Model.Computer.ImageURL)" class="computerImage" />
+    </div>
+    <div class="float-right">
+        <h3>$ <span id="totalPrice"></span></h3>
+        @*<h3><a href="#">@Model.Name</a></h3>*@
+        <p>@Model.Computer.Description</p>
+
+        <div class="addToCart">
+            <p class="button">
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="modal" data-target="#exampleModal">
+                    Add to Cart
+                </button>
+            </p>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to add this item to your cart?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+                    <a class="btn btn-primary" id="btn"
+                       asp-controller="ShoppingCart"
+                       asp-action="AddToShoppingCart"
+                       asp-route-computerId="@Model.Computer.Id">Add to Cart</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div>
+        <h4 class="mb-3">Customize your @Model.Computer.Name</h4>
+        <div class="form-group">
+            <h5>Processor</h5>
+            <div class="select">
+                <select class="form-control w-50" id="ProcessorOptions" name="ProcessorOptions">
+                    @{foreach (var c in @Model.ProcessorOps)
+                        {
+                            if (c.Id == 15)
+                            {
+                                <option price="@c.Price" id="@c.Id" selected="selected">@c.Name (Included in price) id=@c.Id</option>
+                            }
+                            else
+                            {
+                                <option price="@c.Price" id="@c.Id">@c.Name (+$@c.Price) id=@c.Id</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <h5>Graphics</h5>
+            <div class="select">
+                <select class="form-control w-50" id="GraphicsOptions" name="GraphicsOptions">
+
+                    @{
+
+                        foreach (var c in @Model.GraphicsOps)
+                        {
+                            if (c.Id ==17)
+                            {
+                                <option price="@c.Price" id="@c.Id" selected="selected">@c.Name (Included in price) id=@c.Id</option>
+                            }
+                            else
+                            {
+                                <option price="@c.Price" id="@c.Id">@c.Name (+$@c.Price) id=@c.Id</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <h5>Memory</h5>
+            <div class="select">
+                <select class="form-control w-50" id="MemoryOptions" name="MemoryOptions">
+                    @{
+
+                        foreach (var c in @Model.MemoryOps)
+                        {
+                            if (c.Id == 4)
+                            {
+                                <option price="@c.Price" id="@c.Id" selected="selected">@c.Name (Included in price) id=@c.Id</option>
+                            }
+                            else
+                            {
+                                <option price="@c.Price" id="@c.Id">@c.Name (+$@c.Price) id=@c.Id</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <h5>Storage</h5>
+            <div class="select">
+                <select class="form-control w-50" id="StorageOptions" name="StorageOptions">
+                    @{
+                        foreach (var c in @Model.StorageOps)
+                        {
+                            if (c.Id == 24)
+                            {
+                                <option price="@c.Price" id="@c.Id" selected="selected">@c.Name (Included in price) id=@c.Id</option>
+                            }
+                            else
+                            {
+                                <option price="@c.Price" id="@c.Id">@c.Name (+$@c.Price) id=@c.Id</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group mt-3">
+            <h5>Sound Card</h5>
+            <div class="select">
+                <select class="form-control w-50" id="SoundCardOptions" name="SoundCardOptions">
+                    @{
+
+                        foreach (var c in @Model.SoundCardOps)
+                        {
+                            if (c.Id == 26)
+                            {
+                                <option price="@c.Price" id="@c.Id" selected="selected">@c.Name (Included in price) id=@c.Id</option>
+                            }
+                            else
+                            {
+                                <option price="@c.Price" id="@c.Id">@c.Name (+$@c.Price) id=@c.Id</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+        var processorOptionId = 15;
+        var processorOptionPrice = 350.90;
+        var graphicsOptionId = 17;
+        var graphicsOptionPrice = 1195.10;
+        var MemoryOptionId = 4;
+        var MemoryOptionsPrice = 150;
+        var StorageOptionId = 23
+        var StorageOptionPrice =78.80;
+        var SoundCardOptionId =26;
+        var SoundCardOptionPrice =100;
+        var baseUrl = $("#btn").attr("href");
+        var PriceCalculated = @Model.Computer.BasePrice + processorOptionPrice + graphicsOptionPrice + MemoryOptionsPrice + StorageOptionPrice + SoundCardOptionPrice;
+        $(document).ready(function () {
+
+            $("#modal").click(function () {
+                var addUrl = `&processorId=${processorOptionId}&graphicsId=${graphicsOptionId}&memoryId=${MemoryOptionId}&storageId=${StorageOptionId}&soundCardId=${SoundCardOptionId}&totalPrice=${PriceCalculated}`;
+
+                console.log(baseUrl + addUrl)
+                $("#btn").attr('href', baseUrl + addUrl);
+
+            })
+
+            $("#close").click(function() {
+                $("#btn").attr('href', baseUrl);
+            })
+
+            $("#totalPrice").text(@Model.Computer.BasePrice + processorOptionPrice + graphicsOptionPrice + MemoryOptionsPrice + StorageOptionPrice + SoundCardOptionPrice);
+            $("#ProcessorOptions").change(function () {
+                console.log(processorOptionId)
+                newOption = $("#ProcessorOptions").find(":selected");
+                newOptionId = newOption.attr("id");
+                newOptionPrice = parseFloat(newOption.attr("price"));
+                if (processorOptionId != newOptionId) {
+                    var totalPrice = parseFloat($("#totalPrice").text());
+                    totalPrice = totalPrice - processorOptionPrice + newOptionPrice;
+                    processorOptionId = newOptionId;
+                    console.log(processorOptionId)
+                    processorOptionPrice = newOptionPrice;
+                    totalPrice = totalPrice.toFixed("2");
+                    $("#totalPrice").text(totalPrice);
+                    finalPrice = totalPrice;
+                    PriceCalculated = finalPrice
+                }
+
+        });
+        $("#GraphicsOptions").change(function () {
+            newOption = $("#GraphicsOptions").find(":selected");
+            newOptionId = newOption.attr("id");
+            newOptionPrice = parseFloat(newOption.attr("price"));
+
+            if (graphicsOptionId != newOptionId) {
+                var totalPrice = parseFloat($("#totalPrice").text());
+                totalPrice = totalPrice - graphicsOptionPrice + newOptionPrice;
+                graphicsOptionId = newOptionId;
+                graphicsOptionPrice = newOptionPrice;
+                totalPrice = totalPrice.toFixed("2");
+                $("#totalPrice").text(totalPrice);
+                finalPrice = totalPrice;
+                PriceCalculated = finalPrice
+            }
+        });
+        $("#MemoryOptions").change(function () {
+            newOption = $("#MemoryOptions").find(":selected");
+            newOptionId = newOption.attr("id");
+            newOptionPrice = parseFloat(newOption.attr("price"));
+
+            if (MemoryOptionId != newOptionId) {
+                var totalPrice = parseFloat($("#totalPrice").text());
+                totalPrice = totalPrice - MemoryOptionsPrice + newOptionPrice;
+                MemoryOptionId = newOptionId;
+                MemoryOptionsPrice = newOptionPrice;
+                totalPrice = totalPrice.toFixed("2");
+                $("#totalPrice").text(totalPrice);
+                finalPrice = totalPrice;
+                PriceCalculated = finalPrice
+            }
+        });
+        $("#StorageOptions").change(function () {
+            newOption = $("#StorageOptions").find(":selected");
+            newOptionId = newOption.attr("id");
+            newOptionPrice = parseFloat(newOption.attr("price"));
+            if (StorageOptionId != newOptionId) {
+                var totalPrice = parseFloat($("#totalPrice").text());
+                totalPrice = totalPrice - StorageOptionPrice + newOptionPrice;
+                StorageOptionId = newOptionId;
+                StorageOptionPrice = newOptionPrice;
+                totalPrice = totalPrice.toFixed("2");
+                $("#totalPrice").text(totalPrice);
+                finalPrice = totalPrice;
+            }
+        });
+        $("#SoundCardOptions").change(function () {
+            newOption = $("#SoundCardOptions").find(":selected");
+            newOptionId = newOption.attr("id");
+            newOptionPrice = parseFloat(newOption.attr("price"));
+            if (SoundCardOptionId != newOptionId) {
+                var totalPrice = parseFloat($("#totalPrice").text());
+                totalPrice = totalPrice - SoundCardOptionPrice + newOptionPrice;
+                SoundCardOptionId = newOptionId;
+                SoundCardOptionPrice = newOptionPrice;
+                totalPrice = totalPrice.toFixed("2");
+                $("#totalPrice").text(totalPrice);
+                finalPrice = totalPrice;
+                PriceCalculated = finalPrice
+            }
+        });
+
+    });
+</script>

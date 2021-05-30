@@ -1,0 +1,81 @@
+﻿@model ShoppingCartViewModel
+<h2>Shopping Cart:</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Product Quantity</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
+        {
+<tr>
+    <td class="text-left"><a class="btn btn-primary" asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart" asp-route-productId="@item.Product.Id">Remove 1 Unit</a></td>
+    <td class="text-center">@item.Amount</td>
+    <td class="text-left">
+        @foreach (var c in Model.Computers)
+        {
+            if (c.Id == item.Product.ComputerId)
+            {
+@c.Name}
+}
+        (Processor:
+
+        @foreach (var p in Model.ProcessorOps)
+        {
+            if (p.Id == item.Product.ProcessorId)
+            {
+@p.Name}
+}
+        ,Graphics:
+        @foreach (var p in Model.GraphicsOps)
+        {
+            if (p.Id == item.Product.GraphicsId)
+            {
+@p.Name}
+}
+        ,Memory:
+        @foreach (var p in Model.MemoryOps)
+        {
+            if (p.Id == item.Product.MemoryId)
+            {
+@p.Name}
+}
+        ,Storage:
+        @foreach (var p in Model.StorageOps)
+        {
+            if (p.Id == item.Product.StorageId)
+            {
+@p.Name}
+}
+        ,SoundCard:
+        @foreach (var p in Model.SoundCardOps)
+        {
+            if (p.Id == item.Product.SoundCardId)
+            {
+@p.Name}
+})
+    </td>
+    <td class="text-right">
+        @item.Product.FinalPrice.ToString("c")
+    </td>
+</tr>
+}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="text-right">Total</td>
+            <td class="text-right">@Model.ShoppingCartTotal.ToString("c")</td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary" asp-controller="ShoppingCart" asp-action="ClearCart">Clear Cart</a>
+    <a class="btn btn-primary" asp-controller="Order" asp-action="Checkout">Checkout</a>
+</div>
+@*(Processor: @item.Product.Processor.Id, Graphics: @item.Product.Graphics.Id, Memory: @item.Product.Memory.Id, Storage: @item.Product.Storage.Id, SoundCard: @item.Product.SoundCard.Id)*@

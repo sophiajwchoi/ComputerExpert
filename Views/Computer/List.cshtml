@@ -1,0 +1,21 @@
+﻿@model ComputerListViewModel
+
+
+@*<form class="form-inline mb-5" method="get">
+        <div>
+            <input class="form-control" type="search" placeholder="Search Computer Expert" aria-label="Search" name="searchTerm" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+            </span>
+        </div>
+    </form>*@
+
+<h1 class="mb-3">Computers</h1>
+
+<h5 class="mb-5">Browse Computers and configure your own.</h5>
+<div class="row mr-2">
+    @foreach (var computer in Model.Computers)
+    {
+        <partial name="_ComputerCard" model="computer" />
+    }
+</div>
